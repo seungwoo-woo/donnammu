@@ -103,6 +103,10 @@ function LandList() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const [ landList, setLandList ] = useState([])
+  const [ findSi, setFindSi ] = useState()
+  const [ findInputSi, setFindInputSi ] = useState()
+  const [ findGoo, setFindGoo ] = useState()
+  const [ findInputGoo, setFindInputGoo ] = useState()
   const [ findDong, setFindDong ] = useState()
   const [ findInputDong, setFindInputDong ] = useState()
   const [ findType, setFindType ] = useState()
@@ -112,10 +116,16 @@ function LandList() {
   // const [ dongNameList, setDongNameList ] = useState([{name: '내곡동', code: '1165010900'}, {name: '반포동', code: '1165010700'}])
   // https://new.land.naver.com/api/regions/list?cortarNo=1165000000  서초구 동이름, 동코드 알아오기
   // const [ dongNameList, setDongNameList ] = useState(['내곡동', '반포동', '방배동', '서초동', '신원동', '양재동'])
+  const [ siNameList, setSiNameList ] = useState()
+  const [ siCodeList, setSiCodeList ] = useState([])
+  const [ gooNameList, setGooNameList ] = useState()
+  const [ gooCodeList, setGooCodeList ] = useState([])
   const [ dongNameList, setDongNameList ] = useState()
-  const [ dongCodeList, setDongCodeList ] = useState()
+  const [ dongCodeList, setDongCodeList ] = useState([])
   const [ typeNameList, setTypeNameList ] = useState()
   const [ tradeTypeNameList, setTradeTypeNameList ] = useState()
+
+  const [ sortNo, setSortNo ] = useState(0)
 
   // 3-2. table pagination subfunction --------------------------------------- 
   const handleChangePage = (event, newPage) => {
@@ -129,14 +139,69 @@ function LandList() {
   };  
 
 
+  useEffect(()=>{
+
+    const fetchAllSiList = async () => {
+      let temp = []
+      let temp1 = []
+  
+      try {
+        const res = await axios.get("https://new.land.naver.com/api/regions/list?cortarNo=0000000000")
+        console.log(res.data.regionList)
+        res.data.regionList.forEach(ele => {
+          temp.push(ele.cortarName)
+          temp1.push(ele.cortarNo)
+        });
+        setSiNameList(temp)
+        setSiCodeList(temp1)
+      } catch(err) {
+        console.log(err)
+      }
+  
+    }
+  
+    fetchAllSiList()
+  }, [])
+
+
+  useEffect(()=>{
+
+    const fetchAllGooList = async () => {
+      let temp = []
+      let temp1 = []
+
+      const codeIndex = siNameList.indexOf(findSi)
+  
+      try {
+        const res = await axios.get(`https://new.land.naver.com/api/regions/list?cortarNo=${siCodeList[codeIndex]}`)
+        console.log(res.data.regionList)
+        res.data.regionList.forEach(ele => {
+          temp.push(ele.cortarName)
+          temp1.push(ele.cortarNo)
+        });
+        setGooNameList(temp)
+        setGooCodeList(temp1)
+      } catch(err) {
+        console.log(err)
+      }
+  
+    }
+  
+    fetchAllGooList()
+  }, [findSi])
+
+
 useEffect(()=>{
 
   const fetchAllDongList = async () => {
     let temp = []
     let temp1 = []
 
+    const codeIndex = gooNameList.indexOf(findGoo)
+
+
     try {
-      const res = await axios.get("https://new.land.naver.com/api/regions/list?cortarNo=1165000000")
+      const res = await axios.get(`https://new.land.naver.com/api/regions/list?cortarNo=${gooCodeList[codeIndex]}`)
       console.log(res.data.regionList)
       res.data.regionList.forEach(ele => {
         temp.push(ele.cortarName)
@@ -154,13 +219,86 @@ useEffect(()=>{
   }
 
   fetchAllDongList()
-}, [])
+}, [findGoo])
 
 
 
 const priceSort = () => {
-  
+  let temp = []
+  if (sortNo === 0) {
+    temp = [...landList].sort((a, b) => Number(a.prc) - Number(b.prc));
+    setSortNo(1)
+  } else {
+    temp = [...landList].sort((a, b) => Number(b.prc) - Number(a.prc));
+    setSortNo(0)
+  }  
+  setLandList(temp)
 }
+
+const priceSort2 = () => {
+  let temp = []
+  if (sortNo === 0) {
+    temp = [...landList].sort((a, b) => Number(a.rentPrc) - Number(b.rentPrc));
+    setSortNo(1)
+  } else {
+    temp = [...landList].sort((a, b) => Number(b.rentPrc) - Number(a.rentPrc));
+    setSortNo(0)
+  }  
+  setLandList(temp)
+}
+
+
+const priceSort3 = () => {
+  let temp = []
+  if (sortNo === 0) {
+    temp = [...landList].sort((a, b) => (Number(a.prc)/Number(a.spc1)) - (Number(b.prc)/Number(b.spc1)));
+    setSortNo(1)
+  } else {
+    temp = [...landList].sort((a, b) => (Number(b.prc)/Number(b.spc1)) - (Number(a.prc)/Number(a.spc1)));
+    setSortNo(0)
+  }  
+  setLandList(temp)
+}
+
+const priceSort4 = () => {
+  let temp = []
+  if (sortNo === 0) {
+    temp = [...landList].sort((a, b) => Number(a.spc1) - Number(b.spc1));
+    setSortNo(1)
+  } else {
+    temp = [...landList].sort((a, b) => Number(b.spc1) - Number(a.spc1));
+    setSortNo(0)
+  }  
+  setLandList(temp)
+}
+
+const priceSort5 = () => {
+  let temp = []
+  if (sortNo === 0) {
+    temp = [...landList].sort((a, b) => Number(a.spc2) - Number(b.spc2));
+    setSortNo(1)
+  } else {
+    temp = [...landList].sort((a, b) => Number(b.spc2) - Number(a.spc2));
+    setSortNo(0)
+  }  
+  setLandList(temp)
+}
+
+const priceSort6 = () => {
+  let temp = []
+  if (sortNo === 0) {
+    temp = [...landList].sort((a, b) => (Number(a.spc2)/Number(a.spc1)) - (Number(b.spc2)/Number(b.spc1)));
+    setSortNo(1)
+  } else {
+    temp = [...landList].sort((a, b) => (Number(b.spc2)/Number(b.spc1)) - (Number(a.spc2)/Number(a.spc1)));
+    setSortNo(0)
+  }  
+  setLandList(temp)
+}
+
+
+
+
 
 const handleClickFind = async () => {
 
@@ -215,7 +353,40 @@ const handleClickFind = async () => {
     <Container maxWidth='false' sx={{m: 0}}>
 
 
-    <div style={{ marginTop:10,  width: 600, display: 'flex',  justifyContent: 'space-between', alignItems: 'flex-end' }}>
+    <div style={{ marginTop:10,  width: 850, display: 'flex',  justifyContent: 'space-between', alignItems: 'flex-end' }}>
+    
+    <Autocomplete size="small"
+      value={findSi}
+      onChange={(event, newValue) => {
+        setFindSi(newValue);
+      }}  
+
+      InputValue={findInputSi}
+      onInputChange={(event, newInputValue) => {
+        setFindInputSi(newInputValue);
+      }}
+      id="controllable-states-demo2"
+      options={siNameList}
+      sx={{ width: 150 }}
+      renderInput={(params) => <TextField {...params} label="시이름" />}
+    />
+    
+    <Autocomplete size="small"
+      value={findGoo}
+      onChange={(event, newValue) => {
+        setFindGoo(newValue);
+      }}  
+
+      InputValue={findInputGoo}
+      onInputChange={(event, newInputValue) => {
+        setFindInputGoo(newInputValue);
+      }}
+      id="controllable-states-demo2"
+      options={gooNameList}
+      sx={{ width: 150 }}
+      renderInput={(params) => <TextField {...params} label="구이름" />}
+    />
+
     <Autocomplete size="small"
       value={findDong}
       onChange={(event, newValue) => {
@@ -272,7 +443,6 @@ const handleClickFind = async () => {
 
 
 
-
     <Paper style={{marginTop: 10, marginLeft: 0, marginRight: 0}} elevation={3}>
     <TableContainer>
       <Table stickyHeader size='small' aria-label="sticky table">        
@@ -281,12 +451,13 @@ const handleClickFind = async () => {
             <StyledTableCell padding='none' sx= {{paddingTop:1, paddingBottom:1, fontWeight: 400}} align='center' rowSpan={2}>No.</StyledTableCell>
             <StyledTableCell padding='none' sx={{fontWeight: 400}} align='center' rowSpan={2}>매물번호</StyledTableCell>
             <StyledTableCell padding='none' sx={{fontWeight: 400}} align='center' rowSpan={2}>매물명</StyledTableCell>
-            {(findTradeType === '매매') && <StyledTableCell onClick={priceSort} padding='none' sx={{fontWeight: 400, cursor: 'pointer'}} align='center' rowSpan={2}>매매가(천원)</StyledTableCell>}
-            {(findTradeType === '월세') && <StyledTableCell onClick={priceSort} padding='none' sx={{fontWeight: 400, cursor: 'pointer'}} align='center' rowSpan={2}>보증금(천원)</StyledTableCell>}
-            <StyledTableCell padding='none' sx={{fontWeight: 400}} align='center' rowSpan={2}>월세(만원)</StyledTableCell>
-            <StyledTableCell padding='none' sx={{fontWeight: 400}} align='center' rowSpan={2}>평당가</StyledTableCell>
-            <StyledTableCell padding='none' sx={{fontWeight: 400}} align='center' rowSpan={2}>계약면적</StyledTableCell>
-            <StyledTableCell padding='none' sx={{fontWeight: 400}} align='center' rowSpan={2}>전용면적</StyledTableCell>
+            {(findTradeType === '매매') && <StyledTableCell padding='none' sx={{fontWeight: 400}} align='center' rowSpan={2}><Button onClick={priceSort} variant="contained" disableElevation>매매가(천원)</Button></StyledTableCell>}
+            {(findTradeType === '월세') && <StyledTableCell padding='none' sx={{fontWeight: 400}} align='center' rowSpan={2}><Button onClick={priceSort} variant="contained" disableElevation>보증금(천원)</Button></StyledTableCell>}
+            <StyledTableCell padding='none' sx={{fontWeight: 400}} align='center' rowSpan={2}><Button onClick={priceSort2} variant="contained" disableElevation>월세(만원)</Button></StyledTableCell>
+            <StyledTableCell padding='none' sx={{fontWeight: 400}} align='center' rowSpan={2}><Button onClick={priceSort3} variant="contained" disableElevation>평당가(만원)</Button></StyledTableCell>
+            <StyledTableCell padding='none' sx={{fontWeight: 400}} align='center' rowSpan={2}><Button onClick={priceSort4} variant="contained" disableElevation>계약면적</Button></StyledTableCell>
+            <StyledTableCell padding='none' sx={{fontWeight: 400}} align='center' rowSpan={2}><Button onClick={priceSort5} variant="contained" disableElevation>전용면적</Button></StyledTableCell>
+            <StyledTableCell padding='none' sx={{fontWeight: 400}} align='center' rowSpan={2}><Button onClick={priceSort6} variant="contained" disableElevation>전용율</Button></StyledTableCell>
             <StyledTableCell padding='none' sx={{fontWeight: 400}} align='center' rowSpan={2}>층수</StyledTableCell>
             <StyledTableCell padding='none' sx={{fontWeight: 400}} align='center' rowSpan={2}>매물설명</StyledTableCell>
           </TableRow>
@@ -304,8 +475,9 @@ const handleClickFind = async () => {
                   price = {Number(op.prc)*10}
                   rentPrc = {Number(op.rentPrc)}
                   priceparea = {((op.prc / (Number(op.spc1)/3.3)).toFixed(0))}
-                  spc1 = {`${op.spc1} m2  /  ${(Number(op.spc1)/3.3).toFixed(1)} 평`}
-                  spc2 = {`${op.spc2} m2  /  ${(Number(op.spc2)/3.3).toFixed(1)} 평`}
+                  spc1 = {`${Number(op.spc1).toLocaleString()} ㎡  /  ${(Number(op.spc1)/3.3).toFixed(1)} 평`}
+                  spc2 = {`${op.spc2} ㎡  /  ${(Number(op.spc2)/3.3).toFixed(1)} 평`}
+                  areaRatio = {`${((op.spc2/op.spc1) * 100).toFixed(1)}%`} 
                   flrInfo = {op.flrInfo} 
                   tagList = {op.tagList}
                   />
