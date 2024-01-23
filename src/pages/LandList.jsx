@@ -7,7 +7,6 @@ import FirstPageIcon from '@mui/icons-material/FirstPage';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import PropTypes from 'prop-types';
-import dayjs from "dayjs";
 import Land from '../components/Land';
 import axios from 'axios'
 import Autocomplete from '@mui/material/Autocomplete';
