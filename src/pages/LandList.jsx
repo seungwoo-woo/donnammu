@@ -188,7 +188,7 @@ function LandList() {
     }
   
     fetchAllGooList()
-  }, [findSi])
+  }, [findSi, siNameList, siCodeList])
 
 
 useEffect(()=>{
@@ -219,7 +219,7 @@ useEffect(()=>{
   }
 
   fetchAllDongList()
-}, [findGoo])
+}, [findGoo, gooNameList, gooCodeList])
 
 
 
