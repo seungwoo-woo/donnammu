@@ -251,6 +251,7 @@ const priceSort = () => {
     setSortNo(0)
   }  
   setLandList(temp)
+  setPage(0);
 }
 
 const priceSort2 = () => {
@@ -263,6 +264,7 @@ const priceSort2 = () => {
     setSortNo(0)
   }  
   setLandList(temp)
+  setPage(0);
 }
 
 
@@ -276,6 +278,7 @@ const priceSort3 = () => {
     setSortNo(0)
   }  
   setLandList(temp)
+  setPage(0);
 }
 
 const priceSort4 = () => {
@@ -288,6 +291,7 @@ const priceSort4 = () => {
     setSortNo(0)
   }  
   setLandList(temp)
+  setPage(0);
 }
 
 const priceSort5 = () => {
@@ -300,6 +304,7 @@ const priceSort5 = () => {
     setSortNo(0)
   }  
   setLandList(temp)
+  setPage(0);
 }
 
 const priceSort6 = () => {
@@ -312,6 +317,7 @@ const priceSort6 = () => {
     setSortNo(0)
   }  
   setLandList(temp)
+  setPage(0);
 }
 
 
@@ -326,6 +332,7 @@ const priceSort7 = () => {
     setSortNo(0)
   }  
   setLandList(temp)
+  setPage(0);
 }
 
 
@@ -339,6 +346,7 @@ const priceSort8 = () => {
     setSortNo(0)
   }  
   setLandList(temp)
+  setPage(0);
 }
 
 
