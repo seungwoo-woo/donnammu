@@ -33,7 +33,8 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
       <TableCell padding='none' align='center'>{spc2}</TableCell>
       <TableCell padding='none' align='center'>{areaRatio}</TableCell>
       <TableCell padding='none' align='center'>{flrInfo}</TableCell>
-      <TableCell paddingLeft='2px' align='left'>{`${tagList[0]},  ${tagList[1]},  ${tagList[2]},  ${tagList[3]}`}</TableCell>
+      {(tagList.length === 4) && <TableCell paddingLeft='2px' align='left'>{`${tagList[0]},  ${tagList[1]},  ${tagList[2]}, ${tagList[3]}`}</TableCell>}
+      {(tagList.length === 3) && <TableCell paddingLeft='2px' align='left'>{`${tagList[0]},  ${tagList[1]},  ${tagList[2]}`}</TableCell>}
 
     </StyledTableRow>    
   )
