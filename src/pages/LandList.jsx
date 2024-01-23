@@ -231,7 +231,7 @@ useEffect(()=>{
       console.log(err)
     }
 
-    setTypeNameList(['아파트', '오피스텔', '빌라', '상가'])
+    setTypeNameList(['아파트', '오피스텔', '빌라', '상가', '지식산업센터'])
     setTradeTypeNameList(['매매', '전세', '월세'])
 
   }
@@ -334,6 +334,9 @@ const handleClickFind = async () => {
   }  
   if (findType === '상가') {
     type = 'SG'
+  }
+  if (findType === '지식산업센터') {
+    type = 'APTHGJ'
   }
 
   if (findTradeType === '매매') {
