@@ -11,7 +11,7 @@ import Land from '../components/Land';
 import axios from 'axios'
 import Autocomplete from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
-
+import * as XLSX  from 'xlsx';
 
 
 
@@ -169,16 +169,25 @@ function LandList() {
     const fetchAllGooList = async () => {
       let temp = []
       let temp1 = []
+      let codeIndex
 
-      const codeIndex = siNameList.indexOf(findSi)
+      if(siNameList) {
+        codeIndex = siNameList.indexOf(findSi)
+      }
+      
   
       try {
-        const res = await axios.get(`https://new.land.naver.com/api/regions/list?cortarNo=${siCodeList[codeIndex]}`)
+        let res = []
+        res = await axios.get(`https://new.land.naver.com/api/regions/list?cortarNo=${siCodeList[codeIndex]}`)
         console.log(res.data.regionList)
-        res.data.regionList.forEach(ele => {
-          temp.push(ele.cortarName)
-          temp1.push(ele.cortarNo)
-        });
+        
+        if (res) {
+          res.data.regionList.forEach(ele => {
+            temp.push(ele.cortarName)
+            temp1.push(ele.cortarNo)
+          });
+        }        
+
         setGooNameList(temp)
         setGooCodeList(temp1)
       } catch(err) {
@@ -196,17 +205,26 @@ useEffect(()=>{
   const fetchAllDongList = async () => {
     let temp = []
     let temp1 = []
+    let codeIndex = ''
 
-    const codeIndex = gooNameList.indexOf(findGoo)
+    if(gooNameList) {
+      codeIndex = gooNameList.indexOf(findGoo)
+    }
+    
 
 
     try {
-      const res = await axios.get(`https://new.land.naver.com/api/regions/list?cortarNo=${gooCodeList[codeIndex]}`)
+      let res = []
+      res = await axios.get(`https://new.land.naver.com/api/regions/list?cortarNo=${gooCodeList[codeIndex]}`)
       console.log(res.data.regionList)
-      res.data.regionList.forEach(ele => {
-        temp.push(ele.cortarName)
-        temp1.push(ele.cortarNo)
-      });
+      
+      if(res) {
+        res.data.regionList.forEach(ele => {
+          temp.push(ele.cortarName)
+          temp1.push(ele.cortarNo)
+        });
+      }      
+
       setDongNameList(temp)
       setDongCodeList(temp1)
     } catch(err) {
@@ -298,8 +316,6 @@ const priceSort6 = () => {
 
 
 
-
-
 const handleClickFind = async () => {
 
   let temp = []
@@ -346,6 +362,15 @@ const handleClickFind = async () => {
 }
 
 
+const handleClickExport = () => {
+  let wb = XLSX.utils.book_new()
+  let ws = XLSX.utils.json_to_sheet(landList)
+
+  XLSX.utils.book_append_sheet(wb, ws, 'MySheet1')
+
+  XLSX.writeFile(wb, 'MyExcle.xlsx')
+}
+
 
 
 
@@ -353,7 +378,7 @@ const handleClickFind = async () => {
     <Container maxWidth='false' sx={{m: 0}}>
 
 
-    <div style={{ marginTop:10,  width: 850, display: 'flex',  justifyContent: 'space-between', alignItems: 'flex-end' }}>
+    <div style={{ marginTop:10,  width: 950, display: 'flex',  justifyContent: 'space-between', alignItems: 'flex-end' }}>
     
     <Autocomplete size="small"
       value={findSi}
@@ -437,6 +462,10 @@ const handleClickFind = async () => {
 
     <Button sx={{height:'40px', padding: 1}} variant='contained' color='primary' onClick={handleClickFind}>
       검색
+    </Button>
+
+    <Button sx={{height:'40px', padding: 1}} variant='contained' color='primary' onClick={handleClickExport}>
+      Export
     </Button>
 
     </div>
