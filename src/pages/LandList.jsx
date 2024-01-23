@@ -111,10 +111,11 @@ function LandList() {
   const [ findInputTradeType, setFindInputTradeType ] = useState()
   // const [ dongNameList, setDongNameList ] = useState([{name: '내곡동', code: '1165010900'}, {name: '반포동', code: '1165010700'}])
   // https://new.land.naver.com/api/regions/list?cortarNo=1165000000  서초구 동이름, 동코드 알아오기
-  const [ dongNameList, setDongNameList ] = useState(['내곡동', '반포동', '방배동', '서초동', '신원동', '양재동'])
-  const [ dongCodeList, setDongCodeList ] = useState(['1165010900', '1165010700', '1165010100', '1165010800', '1165011100', '1165010200'])
-  const [ typeNameList, setTypeNameList ] = useState(['아파트', '상가'])
-  const [ tradeTypeNameList, setTradeTypeNameList ] = useState(['매매', '월세'])
+  // const [ dongNameList, setDongNameList ] = useState(['내곡동', '반포동', '방배동', '서초동', '신원동', '양재동'])
+  const [ dongNameList, setDongNameList ] = useState()
+  const [ dongCodeList, setDongCodeList ] = useState()
+  const [ typeNameList, setTypeNameList ] = useState()
+  const [ tradeTypeNameList, setTradeTypeNameList ] = useState()
 
   // 3-2. table pagination subfunction --------------------------------------- 
   const handleChangePage = (event, newPage) => {
@@ -128,34 +129,33 @@ function LandList() {
   };  
 
 
-
 useEffect(()=>{
-  const fetchAllLandList = async () => {
+
+  const fetchAllDongList = async () => {
     let temp = []
-    try{
-      // const res1 = await axios.get("https://fin.land.naver.com/articles/2401460139")
-      const res1 = await axios.get("https://m.land.naver.com/cluster/ajax/articleList?rletTpCd=APT&tradTpCd=A1&cortarNo=1165010800&sort=rank&page=1")
-      const res2 = await axios.get("https://m.land.naver.com/cluster/ajax/articleList?rletTpCd=SG&tradTpCd=A1&cortarNo=1165010800&sort=rank&page=2")
-      const res3 = await axios.get("https://m.land.naver.com/cluster/ajax/articleList?rletTpCd=SG&tradTpCd=A1&cortarNo=1165010800&sort=rank&page=3")
-      const res4 = await axios.get("https://m.land.naver.com/cluster/ajax/articleList?rletTpCd=SG&tradTpCd=A1&cortarNo=1165010800&sort=rank&page=4")
-      const res5 = await axios.get("https://m.land.naver.com/cluster/ajax/articleList?rletTpCd=SG&tradTpCd=A1&cortarNo=1165010800&sort=rank&page=5")
-      
-      console.log(res1.data)
-      temp = [...temp, ...res1.data.body]
-      temp = [...temp, ...res2.data.body]
-      temp = [...temp, ...res3.data.body]
-      temp = [...temp, ...res4.data.body]
-      temp = [...temp, ...res5.data.body]
-      console.log(temp)    
-      
-      setLandList(temp)
-    }catch(err){
+    let temp1 = []
+
+    try {
+      const res = await axios.get("https://new.land.naver.com/api/regions/list?cortarNo=1165000000")
+      console.log(res.data.regionList)
+      res.data.regionList.forEach(ele => {
+        temp.push(ele.cortarName)
+        temp1.push(ele.cortarNo)
+      });
+      setDongNameList(temp)
+      setDongCodeList(temp1)
+    } catch(err) {
       console.log(err)
     }
+
+    setTypeNameList(['아파트', '상가'])
+    setTradeTypeNameList(['매매', '월세'])
+
   }
-  
-  fetchAllLandList()
+
+  fetchAllDongList()
 }, [])
+
 
 
 const priceSort = () => {
