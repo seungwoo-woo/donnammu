@@ -232,7 +232,7 @@ useEffect(()=>{
     }
 
     setTypeNameList(['아파트', '상가'])
-    setTradeTypeNameList(['매매', '월세'])
+    setTradeTypeNameList(['매매', '전세', '월세'])
 
   }
 
@@ -332,7 +332,10 @@ const handleClickFind = async () => {
 
   if (findTradeType === '매매') {
     tradeType = 'A1'
-  }  
+  } 
+  if (findTradeType === '전세') {
+    tradeType = 'B1'
+  }
   if (findTradeType === '월세') {
     tradeType = 'B2'
   }
@@ -481,6 +484,7 @@ const handleClickExport = () => {
             <StyledTableCell padding='none' sx={{fontWeight: 400}} align='center' rowSpan={2}>매물번호</StyledTableCell>
             <StyledTableCell padding='none' sx={{fontWeight: 400}} align='center' rowSpan={2}>매물명</StyledTableCell>
             {(findTradeType === '매매') && <StyledTableCell padding='none' sx={{fontWeight: 400}} align='center' rowSpan={2}><Button onClick={priceSort} variant="contained" disableElevation>매매가(천원)</Button></StyledTableCell>}
+            {(findTradeType === '전세') && <StyledTableCell padding='none' sx={{fontWeight: 400}} align='center' rowSpan={2}><Button onClick={priceSort} variant="contained" disableElevation>전세가(천원)</Button></StyledTableCell>}
             {(findTradeType === '월세') && <StyledTableCell padding='none' sx={{fontWeight: 400}} align='center' rowSpan={2}><Button onClick={priceSort} variant="contained" disableElevation>보증금(천원)</Button></StyledTableCell>}
             <StyledTableCell padding='none' sx={{fontWeight: 400}} align='center' rowSpan={2}><Button onClick={priceSort2} variant="contained" disableElevation>월세(만원)</Button></StyledTableCell>
             <StyledTableCell padding='none' sx={{fontWeight: 400}} align='center' rowSpan={2}><Button onClick={priceSort3} variant="contained" disableElevation>평당가(만원)</Button></StyledTableCell>
