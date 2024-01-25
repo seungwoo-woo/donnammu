@@ -15,8 +15,6 @@ import * as XLSX  from 'xlsx';
 
 
 
-
-
 // 1. Define subFunction ================================================
 // Table Pagination Function Start -----------------------------------------------------
 function TablePaginationActions(props) {
@@ -216,7 +214,7 @@ useEffect(()=>{
     } catch(err) {
       console.log(err)
     }
-    setTypeNameList(['아파트', '오피스텔', '빌라', '상가', '지식산업센터', '사무실'])
+    setTypeNameList(['아파트', '아파트분양권', '재건축', '오피스텔', '오피스텔분양권', '재개발', '빌라/연립', '단독/다가구', '전원주택', '상가주택', '한옥주택', '상가', '사무실', '지식산업센터', '공장/창고', '건물', '토지'])
     setTradeTypeNameList(['매매', '전세', '월세'])
   }
 
@@ -345,20 +343,53 @@ const handleClickFind = async () => {
   if (findType === '아파트') {
     type = 'APT'
   }
+  if (findType === '아파트분양권') {
+    type = 'ABYG'
+  }
+  if (findType === '재건축') {
+    type = 'JGC'
+  }
   if (findType === '오피스텔') {
     type = 'OPST'
   }
-  if (findType === '빌라') {
+  if (findType === '오피스텔분양권') {
+    type = 'OBYG'
+  }
+  if (findType === '재개발') {
+    type = 'JGB'
+  }
+  if (findType === '빌라/연립') {
     type = 'VL'
-  }  
+  }
+  if (findType === '단독/다가구') {
+    type = 'DDDGG'
+  }
+  if (findType === '전원주택') {
+    type = 'JWJT'
+  }
+  if (findType === '상가주택') {
+    type = 'SGJT'
+  }
+  if (findType === '한옥주택') {
+    type = 'HOJT'
+  }
   if (findType === '상가') {
     type = 'SG'
+  }
+  if (findType === '사무실') {
+    type = 'SMS'
   }
   if (findType === '지식산업센터') {
     type = 'APTHGJ'
   }
-  if (findType === '사무실') {
-    type = 'SMS'
+  if (findType === '공장/창고') {
+    type = 'GJCG'
+  }
+  if (findType === '건물') {
+    type = 'GM'
+  }
+  if (findType === '토지') {
+    type = 'TJ'
   }
   if (findTradeType === '매매') {
     tradeType = 'A1'
