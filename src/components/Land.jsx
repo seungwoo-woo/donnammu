@@ -3,7 +3,6 @@ import { styled } from '@mui/material/styles';
 import { TableCell, TableRow } from '@mui/material';
 
 
-
 function Land(props) {
 
   // Initialize Variable ==================================================

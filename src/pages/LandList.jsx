@@ -95,13 +95,14 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 
 
+// https://new.land.naver.com/api/regions/list?cortarNo=1165000000  서초구 동이름, 동코드 알아오기
+
 
 function LandList() {
 
   // Table Pagination Start ----------------------------------------
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-
   const [ landList, setLandList ] = useState([])
   const [ findSi, setFindSi ] = useState()
   const [ findInputSi, setFindInputSi ] = useState()
@@ -113,9 +114,6 @@ function LandList() {
   const [ findInputType, setFindInputType ] = useState()
   const [ findTradeType, setFindTradeType ] = useState()
   const [ findInputTradeType, setFindInputTradeType ] = useState()
-  // const [ dongNameList, setDongNameList ] = useState([{name: '내곡동', code: '1165010900'}, {name: '반포동', code: '1165010700'}])
-  // https://new.land.naver.com/api/regions/list?cortarNo=1165000000  서초구 동이름, 동코드 알아오기
-  // const [ dongNameList, setDongNameList ] = useState(['내곡동', '반포동', '방배동', '서초동', '신원동', '양재동'])
   const [ siNameList, setSiNameList ] = useState()
   const [ siCodeList, setSiCodeList ] = useState([])
   const [ gooNameList, setGooNameList ] = useState()
@@ -124,7 +122,6 @@ function LandList() {
   const [ dongCodeList, setDongCodeList ] = useState([])
   const [ typeNameList, setTypeNameList ] = useState()
   const [ tradeTypeNameList, setTradeTypeNameList ] = useState()
-
   const [ sortNo, setSortNo ] = useState(0)
 
   // 3-2. table pagination subfunction --------------------------------------- 
@@ -143,8 +140,7 @@ function LandList() {
 
     const fetchAllSiList = async () => {
       let temp = []
-      let temp1 = []
-  
+      let temp1 = []  
       try {
         const res = await axios.get("https://new.land.naver.com/api/regions/list?cortarNo=0000000000")
         console.log(res.data.regionList)
@@ -156,12 +152,13 @@ function LandList() {
         setSiCodeList(temp1)
       } catch(err) {
         console.log(err)
-      }
-  
-    }
-  
+      }  
+    }  
+
     fetchAllSiList()
+
   }, [])
+
 
 
   useEffect(()=>{
@@ -170,33 +167,28 @@ function LandList() {
       let temp = []
       let temp1 = []
       let codeIndex
-
       if(siNameList) {
         codeIndex = siNameList.indexOf(findSi)
       }
-      
-  
       try {
         let res = []
         res = await axios.get(`https://new.land.naver.com/api/regions/list?cortarNo=${siCodeList[codeIndex]}`)
-        console.log(res.data.regionList)
-        
+        console.log(res.data.regionList)        
         if (res) {
           res.data.regionList.forEach(ele => {
             temp.push(ele.cortarName)
             temp1.push(ele.cortarNo)
           });
-        }        
-
+        }  
         setGooNameList(temp)
         setGooCodeList(temp1)
       } catch(err) {
         console.log(err)
-      }
-  
+      }  
     }
   
     fetchAllGooList()
+
   }, [findSi, siNameList, siCodeList])
 
 
@@ -206,39 +198,31 @@ useEffect(()=>{
     let temp = []
     let temp1 = []
     let codeIndex = ''
-
     if(gooNameList) {
       codeIndex = gooNameList.indexOf(findGoo)
     }
-    
-
-
     try {
       let res = []
       res = await axios.get(`https://new.land.naver.com/api/regions/list?cortarNo=${gooCodeList[codeIndex]}`)
-      console.log(res.data.regionList)
-      
+      console.log(res.data.regionList)      
       if(res) {
         res.data.regionList.forEach(ele => {
           temp.push(ele.cortarName)
           temp1.push(ele.cortarNo)
         });
-      }      
-
+      }    
       setDongNameList(temp)
       setDongCodeList(temp1)
     } catch(err) {
       console.log(err)
     }
-
     setTypeNameList(['아파트', '오피스텔', '빌라', '상가', '지식산업센터', '사무실'])
     setTradeTypeNameList(['매매', '전세', '월세'])
-
   }
 
   fetchAllDongList()
-}, [findGoo, gooNameList, gooCodeList])
 
+}, [findGoo, gooNameList, gooCodeList])
 
 
 const priceSort = () => {
@@ -253,6 +237,7 @@ const priceSort = () => {
   setLandList(temp)
   setPage(0);
 }
+
 
 const priceSort2 = () => {
   let temp = []
@@ -294,6 +279,7 @@ const priceSort4 = () => {
   setPage(0);
 }
 
+
 const priceSort5 = () => {
   let temp = []
   if (sortNo === 0) {
@@ -307,6 +293,7 @@ const priceSort5 = () => {
   setPage(0);
 }
 
+
 const priceSort6 = () => {
   let temp = []
   if (sortNo === 0) {
@@ -319,7 +306,6 @@ const priceSort6 = () => {
   setLandList(temp)
   setPage(0);
 }
-
 
 
 const priceSort7 = () => {
@@ -350,14 +336,12 @@ const priceSort8 = () => {
 }
 
 
-
 const handleClickFind = async () => {
 
   let temp = []
   let type = ''
   let tradeType = ''
   let dongCode = dongCodeList[dongNameList.indexOf(findDong)]
-
   if (findType === '아파트') {
     type = 'APT'
   }
@@ -376,7 +360,6 @@ const handleClickFind = async () => {
   if (findType === '사무실') {
     type = 'SMS'
   }
-
   if (findTradeType === '매매') {
     tradeType = 'A1'
   } 
@@ -386,7 +369,6 @@ const handleClickFind = async () => {
   if (findTradeType === '월세') {
     tradeType = 'B2'
   }
-
 
     try{
       // const res1 = await axios.get("https://fin.land.naver.com/articles/2401460139")
@@ -402,31 +384,24 @@ const handleClickFind = async () => {
       temp = [...temp, ...res3.data.body]
       temp = [...temp, ...res4.data.body]
       temp = [...temp, ...res5.data.body]
-      console.log(temp)
-      
+      console.log(temp)      
       setLandList(temp)
     }catch(err){
       console.log(err)
     }
-
 }
 
 
 const handleClickExport = () => {
   let wb = XLSX.utils.book_new()
   let ws = XLSX.utils.json_to_sheet(landList)
-
   XLSX.utils.book_append_sheet(wb, ws, 'MySheet1')
-
   XLSX.writeFile(wb, 'MyExcle.xlsx')
 }
 
 
-
-
   return (
     <Container maxWidth='false' sx={{m: 0}}>
-
 
     <div style={{ marginTop:10,  width: 950, display: 'flex',  justifyContent: 'space-between', alignItems: 'flex-end' }}>
     
@@ -434,8 +409,7 @@ const handleClickExport = () => {
       value={findSi}
       onChange={(event, newValue) => {
         setFindSi(newValue);
-      }}  
-
+      }}
       InputValue={findInputSi}
       onInputChange={(event, newInputValue) => {
         setFindInputSi(newInputValue);
@@ -450,8 +424,7 @@ const handleClickExport = () => {
       value={findGoo}
       onChange={(event, newValue) => {
         setFindGoo(newValue);
-      }}  
-
+      }}
       InputValue={findInputGoo}
       onInputChange={(event, newInputValue) => {
         setFindInputGoo(newInputValue);
@@ -466,8 +439,7 @@ const handleClickExport = () => {
       value={findDong}
       onChange={(event, newValue) => {
         setFindDong(newValue);
-      }}  
-
+      }}
       InputValue={findInputDong}
       onInputChange={(event, newInputValue) => {
         setFindInputDong(newInputValue);
@@ -478,12 +450,11 @@ const handleClickExport = () => {
       renderInput={(params) => <TextField {...params} label="동이름" />}
     />
 
-  <Autocomplete size="small"
+    <Autocomplete size="small"
       value={findType}
       onChange={(event, newValue) => {
         setFindType(newValue);
-      }}  
-
+      }}
       InputValue={findInputType}
       onInputChange={(event, newInputValue) => {
         setFindInputType(newInputValue);
@@ -494,12 +465,11 @@ const handleClickExport = () => {
       renderInput={(params) => <TextField {...params} label="부동산 종류" />}
     />
 
-  <Autocomplete size="small"
+    <Autocomplete size="small"
       value={findTradeType}
       onChange={(event, newValue) => {
         setFindTradeType(newValue);
-      }}  
-
+      }}
       InputValue={findInputTradeType}
       onInputChange={(event, newInputValue) => {
         setFindInputTradeType(newInputValue);
@@ -519,7 +489,6 @@ const handleClickExport = () => {
     </Button>
 
     </div>
-
 
 
     <Paper style={{marginTop: 10, marginLeft: 0, marginRight: 0}} elevation={3}>
@@ -583,9 +552,6 @@ const handleClickExport = () => {
       </Table>
       </TableContainer> 
     </Paper>
-
-  
-
 
   </Container>
   )
