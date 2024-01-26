@@ -98,6 +98,8 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 function LandList() {
 
+  const keysInfo = {atclNo: '매물번호', cortarNo: '동이름', atclNm: '매물', atclStatCd: '몰라요1', rletTpCd: '물건 Code', uprRletTpCd: '몰라요2', rletTpNm: '물건 종류', tradTpCd: '거래 Code', tradTpNm: '거래 종류', vrfcTpCd: '몰라요3', flrInfo: '층 ', prc: '매매(전세)가(만원)', rentPrc: '월세(만원)', hanPrc: '매매(전세)가', spc1:'계약면적(㎡)', spc2: '전용면적(㎡)', direction: '향', atclCfmYmd: '매물확인날짜', repImgUr: '이미지URL', repImgTpCd: '몰라요4', repImgThumb: '몰라요5', lat: '위도', lng: '경도', atclFetrDesc: '매물특징', tagList: '상세설명', bildNm: '동', minute: '몰라요6', sameAddrCnt: '몰라요7', sameAddrDirectCnt: '몰라요8', cpid: '정보제공업체ID', cpNm: '정보제공업체', cpCnt: '정보제공업체 ', rltrNm: '중개사', directTradYn: '몰라요9', minMviFee: '몰라요10', maxMviFee: '몰라요11', etRoomCnt: '몰라요12', tradePriceHan: '몰라요13', tradeRentPrice: '몰라요14', tradeCheckedByOwner: '몰라요15', cpLinkVO: '정보제공업정보', dtlAddrYn: '몰라요16', dtlAddr: '몰라요17'}
+
   // Table Pagination Start ----------------------------------------
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -424,8 +426,38 @@ const handleClickFind = async () => {
 
 
 const handleClickExport = () => {
+
+  let copyList = JSON.parse(JSON.stringify(landList));
+  let copyList2 = JSON.parse(JSON.stringify(landList));
+
+  let firstItem = copyList[0]
+
+  const keys = Object.keys(firstItem)
+
+  keys.forEach(ele => {
+    firstItem[ele] = keysInfo[ele]
+  });
+
+  copyList2.unshift(firstItem)
+
+  console.log(keys)
+
+  let copyList3 = []
+
+  copyList2.forEach(ele => {
+    let temp = {}
+    keys.forEach((k, i) => {      
+      temp[k] = ele[k]
+      if(i===10) {
+        temp[k] = (ele[k]).split('/')[0]
+        temp['총층수'] = (ele[k]).substring((ele[k]).indexOf('/') + 1)
+      }
+  })
+  copyList3.push(temp)  
+})
+
   let wb = XLSX.utils.book_new()
-  let ws = XLSX.utils.json_to_sheet(landList)
+  let ws = XLSX.utils.json_to_sheet(copyList3)
   XLSX.utils.book_append_sheet(wb, ws, 'MySheet1')
   XLSX.writeFile(wb, 'MyExcle.xlsx')
 }
