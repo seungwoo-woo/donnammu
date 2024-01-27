@@ -12,6 +12,7 @@ import axios from 'axios'
 import Autocomplete from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
 import * as XLSX  from 'xlsx';
+import { KakaoMap, Marker } from 'react-kakao-maps';
 
 
 
@@ -120,9 +121,14 @@ function LandList() {
   const [ gooCodeList, setGooCodeList ] = useState([])
   const [ dongNameList, setDongNameList ] = useState()
   const [ dongCodeList, setDongCodeList ] = useState([])
+  const [ dongLatList, setDongLatList ] = useState([])
+  const [ dongLonList, setDongLonList ] = useState([])
   const [ typeNameList, setTypeNameList ] = useState()
   const [ tradeTypeNameList, setTradeTypeNameList ] = useState()
   const [ sortNo, setSortNo ] = useState(0)
+  const [ isMapOpen, setIsMapOpen ] = useState(false)
+  const [ mapOption, setMapOption ] = useState(false)
+  const [ mapCenter, setMapCenter ] = useState()
 
   // 3-2. table pagination subfunction --------------------------------------- 
   const handleChangePage = (event, newPage) => {
@@ -197,6 +203,8 @@ useEffect(()=>{
   const fetchAllDongList = async () => {
     let temp = []
     let temp1 = []
+    let temp2 = []
+    let temp3 = []
     let codeIndex = ''
     if(gooNameList) {
       codeIndex = gooNameList.indexOf(findGoo)
@@ -209,10 +217,14 @@ useEffect(()=>{
         res.data.regionList.forEach(ele => {
           temp.push(ele.cortarName)
           temp1.push(ele.cortarNo)
+          temp2.push(ele.centerLat)
+          temp3.push(ele.centerLon)
         });
       }    
       setDongNameList(temp)
       setDongCodeList(temp1)
+      setDongLatList(temp2)
+      setDongLonList(temp3)
     } catch(err) {
       console.log(err)
     }
@@ -223,6 +235,71 @@ useEffect(()=>{
   fetchAllDongList()
 
 }, [findGoo, gooNameList, gooCodeList])
+
+
+// const mapOptionOnOff = () => {
+//   setMapOption(!mapOption)
+// }
+
+const mapView = () => {
+  setIsMapOpen(true)
+
+  let mapCenLat = dongLatList[dongNameList.indexOf(findDong)]
+  let mapCenLon = dongLonList[dongNameList.indexOf(findDong)]  
+
+  window.kakao.maps.load(() => {
+
+    const mapContainer = document.getElementById('myMap');
+    const options = { center: new window.kakao.maps.LatLng(mapCenLat, mapCenLon), // 지도 초기 중심 좌표
+                      level: 3, // 지도 확대 레벨
+                    };
+    const map = new window.kakao.maps.Map(mapContainer, options);
+
+    // 마커 추가 예시
+    landList.map((land, index) => (
+        new window.kakao.maps.Marker({
+          position: new window.kakao.maps.LatLng(land.lat, land.lng),
+          title: land.atclNo,
+        }).setMap(map)
+    ))
+
+
+        // if (mapOption) {map.removeOverlayMapTypeId(window.kakao.maps.MapTypeId.USE_DISTRICT)}
+        // else {map.addOverlayMapTypeId(window.kakao.maps.MapTypeId.USE_DISTRICT)}
+
+})
+
+}
+
+
+useEffect(() => {
+  const mapScript = document.createElement('script');
+
+  mapScript.async = true;
+  mapScript.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=31f6e157c3e7833d28415e28f691fab5&autoload=false`;
+
+  document.head.appendChild(mapScript);
+}, []);
+
+
+// useEffect(() => {
+//   // 카카오지도 API 키를 사용하여 초기화합니다.
+//   window.kakao.maps.load(() => {
+//     const mapContainer = document.getElementById('myMap');
+//     const options = {
+//       center: new window.kakao.maps.LatLng(37.5665, 126.9780), // 지도 초기 중심 좌표
+//       level: 3, // 지도 확대 레벨
+//     };
+//     const map = new window.kakao.maps.Map(mapContainer, options);
+
+//     // 마커 추가 예시
+//     const markerPosition = new window.kakao.maps.LatLng(37.5665, 126.9780);
+//     const marker = new window.kakao.maps.Marker({
+//       position: markerPosition,
+//     });
+//     marker.setMap(map);
+//   });
+// }, []);
 
 
 const priceSort = () => {
@@ -466,7 +543,7 @@ const handleClickExport = () => {
   return (
     <Container maxWidth='false' sx={{m: 0}}>
 
-    <div style={{ marginTop:10,  width: 950, display: 'flex',  justifyContent: 'space-between', alignItems: 'flex-end' }}>
+    <div style={{ marginTop:10,  width: 1100, display: 'flex',  justifyContent: 'space-between', alignItems: 'flex-end' }}>
     
     <Autocomplete size="small"
       value={findSi}
@@ -551,10 +628,16 @@ const handleClickExport = () => {
       Export
     </Button>
 
+    <Button sx={{height:'40px', padding: 1}} variant='contained' color='primary' onClick={mapView}>
+      카카오지도보기
+    </Button>
+
+    
+
     </div>
 
 
-    <Paper style={{marginTop: 10, marginLeft: 0, marginRight: 0}} elevation={3}>
+    <Paper style={{marginTop: 10, marginBottom: 10, marginLeft: 0, marginRight: 0}} elevation={3}>
     <TableContainer>
       <Table stickyHeader size='small' aria-label="sticky table">        
         <TableHead>
@@ -615,6 +698,13 @@ const handleClickExport = () => {
       </Table>
       </TableContainer> 
     </Paper>
+
+    {isMapOpen && <>
+    {/* <Button sx={{height:'40px', padding: 1}} variant='contained' color='primary' onClick={mapView.mapOptionOnOff}>
+      지적도 On/Off
+    </Button>  */}
+    <Paper id="myMap" sx={{mt:2, mb:5,  width: '100%', height: '600px' }}></Paper></>}
+
 
   </Container>
   )
