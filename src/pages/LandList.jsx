@@ -12,7 +12,7 @@ import axios from 'axios'
 import Autocomplete from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
 import * as XLSX  from 'xlsx';
-import { KakaoMap, Marker } from 'react-kakao-maps';
+// import { KakaoMap, Marker } from 'react-kakao-maps';
 
 
 
@@ -127,8 +127,7 @@ function LandList() {
   const [ tradeTypeNameList, setTradeTypeNameList ] = useState()
   const [ sortNo, setSortNo ] = useState(0)
   const [ isMapOpen, setIsMapOpen ] = useState(false)
-  const [ mapOption, setMapOption ] = useState(false)
-  const [ mapCenter, setMapCenter ] = useState()
+
 
   // 3-2. table pagination subfunction --------------------------------------- 
   const handleChangePage = (event, newPage) => {
