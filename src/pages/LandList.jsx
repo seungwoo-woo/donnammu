@@ -263,6 +263,30 @@ const mapView = () => {
     ))
 
 
+    // landList.map((land, index)=> (
+    //   new window.kakao.maps.InfoWindow({
+    //     map: map, // 인포윈도우가 표시될 지도
+    //     position : new window.kakao.maps.LatLng(land.lat, land.lng), 
+    //     content : `<div style="width: 5px; height: 1px"> ${index+1} </div>`,
+    //     removable : true,
+    //   })
+    // ))
+
+
+    landList.map((land, index)=> (
+
+      new window.kakao.maps.CustomOverlay({
+        position: new window.kakao.maps.LatLng(land.lat, land.lng),
+        content: `<div style="background-color:yellow; text-align:center; border-radius: 7px; width: 35px; height: 19px";> ${index+1} </div>`   
+      }).setMap(map)
+
+    ))
+    
+    
+  
+
+
+
         // if (mapOption) {map.removeOverlayMapTypeId(window.kakao.maps.MapTypeId.USE_DISTRICT)}
         // else {map.addOverlayMapTypeId(window.kakao.maps.MapTypeId.USE_DISTRICT)}
 
