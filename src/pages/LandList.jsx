@@ -127,6 +127,7 @@ function LandList() {
   const [ tradeTypeNameList, setTradeTypeNameList ] = useState()
   const [ sortNo, setSortNo ] = useState(0)
   const [ isMapOpen, setIsMapOpen ] = useState(false)
+  const [ mapOption, setMapOption ] = useState(false) 
 
 
   // 3-2. table pagination subfunction --------------------------------------- 
@@ -236,9 +237,12 @@ useEffect(()=>{
 }, [findGoo, gooNameList, gooCodeList])
 
 
-// const mapOptionOnOff = () => {
-//   setMapOption(!mapOption)
-// }
+const mapOptionOnOff = () => {
+  setMapOption(!mapOption)
+  mapView()
+}
+
+
 
 const mapView = () => {
   setIsMapOpen(true)
@@ -263,32 +267,17 @@ const mapView = () => {
     ))
 
 
-    // landList.map((land, index)=> (
-    //   new window.kakao.maps.InfoWindow({
-    //     map: map, // 인포윈도우가 표시될 지도
-    //     position : new window.kakao.maps.LatLng(land.lat, land.lng), 
-    //     content : `<div style="width: 5px; height: 1px"> ${index+1} </div>`,
-    //     removable : true,
-    //   })
-    // ))
-
-
     landList.map((land, index)=> (
 
       new window.kakao.maps.CustomOverlay({
         position: new window.kakao.maps.LatLng(land.lat, land.lng),
-        content: `<div style="background-color:yellow; text-align:center; border-radius: 7px; width: 35px; height: 19px";> ${index+1} </div>`   
+        content: `<div style="background-color:yellow; opacity: 0.8; text-align:center; border-radius: 7px; width: 35px; height: 19px";> ${index+1} </div>`   
       }).setMap(map)
 
     ))
-    
-    
-  
 
-
-
-        // if (mapOption) {map.removeOverlayMapTypeId(window.kakao.maps.MapTypeId.USE_DISTRICT)}
-        // else {map.addOverlayMapTypeId(window.kakao.maps.MapTypeId.USE_DISTRICT)}
+    if (mapOption) {map.removeOverlayMapTypeId(window.kakao.maps.MapTypeId.USE_DISTRICT)}
+    else {map.addOverlayMapTypeId(window.kakao.maps.MapTypeId.USE_DISTRICT)}
 
 })
 
@@ -655,8 +644,6 @@ const handleClickExport = () => {
       카카오지도보기
     </Button>
 
-    
-
     </div>
 
 
@@ -723,9 +710,9 @@ const handleClickExport = () => {
     </Paper>
 
     {isMapOpen && <>
-    {/* <Button sx={{height:'40px', padding: 1}} variant='contained' color='primary' onClick={mapView.mapOptionOnOff}>
-      지적도 On/Off
-    </Button>  */}
+    <Button sx={{height:'40px', width:'100%', padding: 0}} variant='contained' color='error' onClick={mapOptionOnOff}>
+      지적도 보기 On / Off
+    </Button>
     <Paper id="myMap" sx={{mt:2, mb:5,  width: '100%', height: '600px' }}></Paper></>}
 
 
