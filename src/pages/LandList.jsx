@@ -12,6 +12,7 @@ import axios from 'axios'
 import Autocomplete from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
 import * as XLSX  from 'xlsx';
+import NewMap from '../components/NewMap';
 // import { KakaoMap, Marker } from 'react-kakao-maps';
 
 
@@ -246,6 +247,8 @@ const mapOptionOnOff = () => {
 
 const mapView = () => {
   setIsMapOpen(true)
+
+  // window.open('https://map.kakao.com/', '_blank')
 
   let mapCenLat = dongLatList[dongNameList.indexOf(findDong)]
   let mapCenLon = dongLonList[dongNameList.indexOf(findDong)]  
@@ -679,7 +682,8 @@ const handleClickExport = () => {
                   title = {op.atclNm}
                   price = {Number(op.prc)*10}
                   rentPrc = {Number(op.rentPrc)}
-                  priceparea = {((op.prc / (Number(op.spc1)/3.3)).toFixed(0))}
+                  // priceparea = {((op.prc / (Number(op.spc1)/3.3)).toFixed(0))}
+                  priceparea = {((op.rentPrc / (Number(op.spc2)/3.3)).toFixed(1))}
                   spc1 = {`${Number(op.spc1).toLocaleString()} ㎡  /  ${(Number(op.spc1)/3.3).toFixed(1)} 평`}
                   spc2 = {`${op.spc2} ㎡  /  ${(Number(op.spc2)/3.3).toFixed(1)} 평`}
                   areaRatio = {`${((op.spc2/op.spc1) * 100).toFixed(1)}%`} 
@@ -714,6 +718,8 @@ const handleClickExport = () => {
       지적도 보기 On / Off
     </Button>
     <Paper id="myMap" sx={{mt:2, mb:5,  width: '100%', height: '600px' }}></Paper></>}
+
+
 
 
   </Container>
