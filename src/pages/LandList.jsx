@@ -502,6 +502,11 @@ const handleClickFind = async () => {
       const res3 = await axios.get(`https://m.land.naver.com/cluster/ajax/articleList?rletTpCd=${type}&tradTpCd=${tradeType}&cortarNo=${dongCode}&sort=rank&page=3`)
       const res4 = await axios.get(`https://m.land.naver.com/cluster/ajax/articleList?rletTpCd=${type}&tradTpCd=${tradeType}&cortarNo=${dongCode}&sort=rank&page=4`)
       const res5 = await axios.get(`https://m.land.naver.com/cluster/ajax/articleList?rletTpCd=${type}&tradTpCd=${tradeType}&cortarNo=${dongCode}&sort=rank&page=5`)
+      const res6 = await axios.get(`https://m.land.naver.com/cluster/ajax/articleList?rletTpCd=${type}&tradTpCd=${tradeType}&cortarNo=${dongCode}&sort=rank&page=5`)
+      const res7 = await axios.get(`https://m.land.naver.com/cluster/ajax/articleList?rletTpCd=${type}&tradTpCd=${tradeType}&cortarNo=${dongCode}&sort=rank&page=5`)
+      const res8 = await axios.get(`https://m.land.naver.com/cluster/ajax/articleList?rletTpCd=${type}&tradTpCd=${tradeType}&cortarNo=${dongCode}&sort=rank&page=5`)
+      const res9 = await axios.get(`https://m.land.naver.com/cluster/ajax/articleList?rletTpCd=${type}&tradTpCd=${tradeType}&cortarNo=${dongCode}&sort=rank&page=5`)
+      const res10 = await axios.get(`https://m.land.naver.com/cluster/ajax/articleList?rletTpCd=${type}&tradTpCd=${tradeType}&cortarNo=${dongCode}&sort=rank&page=5`)
       
       console.log(res1.data)
       temp = [...temp, ...res1.data.body]
@@ -509,6 +514,11 @@ const handleClickFind = async () => {
       temp = [...temp, ...res3.data.body]
       temp = [...temp, ...res4.data.body]
       temp = [...temp, ...res5.data.body]
+      temp = [...temp, ...res6.data.body]
+      temp = [...temp, ...res7.data.body]
+      temp = [...temp, ...res8.data.body]
+      temp = [...temp, ...res9.data.body]
+      temp = [...temp, ...res10.data.body]
       console.log(temp)      
       setLandList(temp)
     }catch(err){
