@@ -348,10 +348,18 @@ const priceSort2 = () => {
 const priceSort3 = () => {
   let temp = []
   if (sortNo === 0) {
+    if(findTradeType === '월세') {
     temp = [...landList].sort((a, b) => (Number(a.rentPrc)/Number(a.spc2)) - (Number(b.rentPrc)/Number(b.spc2)));
+    } else {
+      temp = [...landList].sort((a, b) => (Number(a.prc)/Number(a.spc2)) - (Number(b.prc)/Number(b.spc2)));
+    }
     setSortNo(1)
   } else {
+    if(findTradeType === '월세') {
     temp = [...landList].sort((a, b) => (Number(b.rentPrc)/Number(b.spc2)) - (Number(a.rentPrc)/Number(a.spc2)));
+    } else {
+      temp = [...landList].sort((a, b) => (Number(b.prc)/Number(b.spc2)) - (Number(a.prc)/Number(a.spc2)));
+    }
     setSortNo(0)
   }  
   setLandList(temp)
@@ -502,11 +510,11 @@ const handleClickFind = async () => {
       const res3 = await axios.get(`https://m.land.naver.com/cluster/ajax/articleList?rletTpCd=${type}&tradTpCd=${tradeType}&cortarNo=${dongCode}&sort=rank&page=3`)
       const res4 = await axios.get(`https://m.land.naver.com/cluster/ajax/articleList?rletTpCd=${type}&tradTpCd=${tradeType}&cortarNo=${dongCode}&sort=rank&page=4`)
       const res5 = await axios.get(`https://m.land.naver.com/cluster/ajax/articleList?rletTpCd=${type}&tradTpCd=${tradeType}&cortarNo=${dongCode}&sort=rank&page=5`)
-      const res6 = await axios.get(`https://m.land.naver.com/cluster/ajax/articleList?rletTpCd=${type}&tradTpCd=${tradeType}&cortarNo=${dongCode}&sort=rank&page=5`)
-      const res7 = await axios.get(`https://m.land.naver.com/cluster/ajax/articleList?rletTpCd=${type}&tradTpCd=${tradeType}&cortarNo=${dongCode}&sort=rank&page=5`)
-      const res8 = await axios.get(`https://m.land.naver.com/cluster/ajax/articleList?rletTpCd=${type}&tradTpCd=${tradeType}&cortarNo=${dongCode}&sort=rank&page=5`)
-      const res9 = await axios.get(`https://m.land.naver.com/cluster/ajax/articleList?rletTpCd=${type}&tradTpCd=${tradeType}&cortarNo=${dongCode}&sort=rank&page=5`)
-      const res10 = await axios.get(`https://m.land.naver.com/cluster/ajax/articleList?rletTpCd=${type}&tradTpCd=${tradeType}&cortarNo=${dongCode}&sort=rank&page=5`)
+      // const res6 = await axios.get(`https://m.land.naver.com/cluster/ajax/articleList?rletTpCd=${type}&tradTpCd=${tradeType}&cortarNo=${dongCode}&sort=rank&page=5`)
+      // const res7 = await axios.get(`https://m.land.naver.com/cluster/ajax/articleList?rletTpCd=${type}&tradTpCd=${tradeType}&cortarNo=${dongCode}&sort=rank&page=5`)
+      // const res8 = await axios.get(`https://m.land.naver.com/cluster/ajax/articleList?rletTpCd=${type}&tradTpCd=${tradeType}&cortarNo=${dongCode}&sort=rank&page=5`)
+      // const res9 = await axios.get(`https://m.land.naver.com/cluster/ajax/articleList?rletTpCd=${type}&tradTpCd=${tradeType}&cortarNo=${dongCode}&sort=rank&page=5`)
+      // const res10 = await axios.get(`https://m.land.naver.com/cluster/ajax/articleList?rletTpCd=${type}&tradTpCd=${tradeType}&cortarNo=${dongCode}&sort=rank&page=5`)
       
       console.log(res1.data)
       temp = [...temp, ...res1.data.body]
@@ -514,11 +522,11 @@ const handleClickFind = async () => {
       temp = [...temp, ...res3.data.body]
       temp = [...temp, ...res4.data.body]
       temp = [...temp, ...res5.data.body]
-      temp = [...temp, ...res6.data.body]
-      temp = [...temp, ...res7.data.body]
-      temp = [...temp, ...res8.data.body]
-      temp = [...temp, ...res9.data.body]
-      temp = [...temp, ...res10.data.body]
+      // temp = [...temp, ...res6.data.body]
+      // temp = [...temp, ...res7.data.body]
+      // temp = [...temp, ...res8.data.body]
+      // temp = [...temp, ...res9.data.body]
+      // temp = [...temp, ...res10.data.body]
       console.log(temp)      
       setLandList(temp)
     }catch(err){
@@ -684,6 +692,7 @@ const handleClickExport = () => {
         <TableBody>
           { landList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)              
             .map((op, index) => {
+                if(findTradeType === '월세') {
                 return (<Land 
                   key = {op.id}
                   id = {op.id} 
@@ -700,7 +709,26 @@ const handleClickExport = () => {
                   flrInfo = {op.flrInfo} 
                   tagList = {op.tagList}
                   />
-                );    // return ----------
+                );}
+                else {
+                  return (<Land 
+                    key = {op.id}
+                    id = {op.id} 
+                    no = {index + 1 + (page * rowsPerPage)}    
+                    atclNo = {op.atclNo}
+                    title = {op.atclNm}
+                    price = {Number(op.prc)*10}
+                    rentPrc = {Number(op.rentPrc)}
+                    priceparea = {((op.prc / (Number(op.spc2)/3.3)).toFixed(1))}
+                    // priceparea = {((op.rentPrc / (Number(op.spc2)/3.3)).toFixed(1))}
+                    spc1 = {`${Number(op.spc1).toLocaleString()} ㎡  /  ${(Number(op.spc1)/3.3).toFixed(1)} 평`}
+                    spc2 = {`${op.spc2} ㎡  /  ${(Number(op.spc2)/3.3).toFixed(1)} 평`}
+                    areaRatio = {`${((op.spc2/op.spc1) * 100).toFixed(1)}%`} 
+                    flrInfo = {op.flrInfo} 
+                    tagList = {op.tagList}
+                    />
+                  )
+                }   // return ----------
             })
             }
         </TableBody>
