@@ -12,7 +12,7 @@ import axios from 'axios'
 import Autocomplete from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
 import * as XLSX  from 'xlsx';
-import NewMap from '../components/NewMap';
+// import NewMap from '../components/NewMap';
 // import { KakaoMap, Marker } from 'react-kakao-maps';
 
 
