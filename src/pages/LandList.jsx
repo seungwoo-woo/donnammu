@@ -348,10 +348,10 @@ const priceSort2 = () => {
 const priceSort3 = () => {
   let temp = []
   if (sortNo === 0) {
-    temp = [...landList].sort((a, b) => (Number(a.prc)/Number(a.spc1)) - (Number(b.prc)/Number(b.spc1)));
+    temp = [...landList].sort((a, b) => (Number(a.rentPrc)/Number(a.spc2)) - (Number(b.rentPrc)/Number(b.spc2)));
     setSortNo(1)
   } else {
-    temp = [...landList].sort((a, b) => (Number(b.prc)/Number(b.spc1)) - (Number(a.prc)/Number(a.spc1)));
+    temp = [...landList].sort((a, b) => (Number(b.rentPrc)/Number(b.spc2)) - (Number(a.rentPrc)/Number(a.spc2)));
     setSortNo(0)
   }  
   setLandList(temp)
