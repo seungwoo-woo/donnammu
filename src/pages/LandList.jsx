@@ -349,6 +349,28 @@ const priceSort2 = () => {
 }
 
 
+const priceSort33 = () => {
+  let temp = []
+  if (sortNo === 0) {
+    if(findTradeType === '월세') {
+    temp = [...landList].sort((a, b) => (Number(a.rentPrc)/Number(a.spc1)) - (Number(b.rentPrc)/Number(b.spc1)));
+    } else {
+      temp = [...landList].sort((a, b) => (Number(a.prc)/Number(a.spc1)) - (Number(b.prc)/Number(b.spc1)));
+    }
+    setSortNo(1)
+  } else {
+    if(findTradeType === '월세') {
+    temp = [...landList].sort((a, b) => (Number(b.rentPrc)/Number(b.spc1)) - (Number(a.rentPrc)/Number(a.spc1)));
+    } else {
+      temp = [...landList].sort((a, b) => (Number(b.prc)/Number(b.spc1)) - (Number(a.prc)/Number(a.spc1)));
+    }
+    setSortNo(0)
+  }  
+  setLandList(temp)
+  setPage(0);
+}
+
+
 const priceSort3 = () => {
   let temp = []
   if (sortNo === 0) {
@@ -684,7 +706,7 @@ const handleClickExport = () => {
             {(findTradeType === '전세') && <StyledTableCell padding='none' sx={{fontWeight: 400}} align='center' rowSpan={2}><Button onClick={priceSort} variant="contained" disableElevation>전세가(천원)</Button></StyledTableCell>}
             {(findTradeType === '월세') && <StyledTableCell padding='none' sx={{fontWeight: 400}} align='center' rowSpan={2}><Button onClick={priceSort} variant="contained" disableElevation>보증금(천원)</Button></StyledTableCell>}
             <StyledTableCell padding='none' sx={{fontWeight: 400}} align='center' rowSpan={2}><Button onClick={priceSort2} variant="contained" disableElevation>월세(만원)</Button></StyledTableCell>
-            <StyledTableCell padding='none' sx={{fontWeight: 400}} align='center' rowSpan={2}><Button onClick={priceSort3} variant="contained" disableElevation>평당가1(만원)</Button></StyledTableCell>
+            <StyledTableCell padding='none' sx={{fontWeight: 400}} align='center' rowSpan={2}><Button onClick={priceSort33} variant="contained" disableElevation>평당가1(만원)</Button></StyledTableCell>
             <StyledTableCell padding='none' sx={{fontWeight: 400}} align='center' rowSpan={2}><Button onClick={priceSort3} variant="contained" disableElevation>평당가2(만원)</Button></StyledTableCell>
             <StyledTableCell padding='none' sx={{fontWeight: 400}} align='center' rowSpan={2}><Button onClick={priceSort4} variant="contained" disableElevation>계약면적</Button></StyledTableCell>
             <StyledTableCell padding='none' sx={{fontWeight: 400}} align='center' rowSpan={2}><Button onClick={priceSort5} variant="contained" disableElevation>전용면적</Button></StyledTableCell>
