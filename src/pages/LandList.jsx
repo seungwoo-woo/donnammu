@@ -262,19 +262,23 @@ const mapView = () => {
     const map = new window.kakao.maps.Map(mapContainer, options);
 
     // 마커 추가 예시
-    landList.map((land, index) => (
-        new window.kakao.maps.Marker({
-          position: new window.kakao.maps.LatLng(land.lat, land.lng),
-          title: land.atclNo,
-        }).setMap(map)
-    ))
+    // landList.map((land, index) => (
+    //     new window.kakao.maps.Marker({
+    //       position: new window.kakao.maps.LatLng(land.lat, land.lng),
+    //       title: land.atclNo,
+    //     }).setMap(map)
+    // ))
 
+    const getColor = (index) => {
+      const colorIndex = Math.floor(index / 10) % 10; // 10개마다 색상이 바뀌도록 설정
+      const colors = ['red', 'blue', 'green', 'yellow', 'orange', 'purple', 'cyan', 'magenta', 'pink', 'brown']; // 색상 배열
+      return colors[colorIndex];
+    };
 
     landList.map((land, index)=> (
-
       new window.kakao.maps.CustomOverlay({
         position: new window.kakao.maps.LatLng(land.lat, land.lng),
-        content: `<div style="background-color:yellow; opacity: 0.8; text-align:center; border-radius: 7px; width: 35px; height: 19px";> ${index+1} </div>`   
+        content: `<div style="background-color:${getColor(index)}; opacity: 0.8; text-align:center; border-radius: 7px; width: 35px; height: 19px";> ${index+1} </div>`   
       }).setMap(map)
 
     ))
