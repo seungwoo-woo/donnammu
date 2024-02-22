@@ -684,7 +684,8 @@ const handleClickExport = () => {
             {(findTradeType === '전세') && <StyledTableCell padding='none' sx={{fontWeight: 400}} align='center' rowSpan={2}><Button onClick={priceSort} variant="contained" disableElevation>전세가(천원)</Button></StyledTableCell>}
             {(findTradeType === '월세') && <StyledTableCell padding='none' sx={{fontWeight: 400}} align='center' rowSpan={2}><Button onClick={priceSort} variant="contained" disableElevation>보증금(천원)</Button></StyledTableCell>}
             <StyledTableCell padding='none' sx={{fontWeight: 400}} align='center' rowSpan={2}><Button onClick={priceSort2} variant="contained" disableElevation>월세(만원)</Button></StyledTableCell>
-            <StyledTableCell padding='none' sx={{fontWeight: 400}} align='center' rowSpan={2}><Button onClick={priceSort3} variant="contained" disableElevation>평당가(만원)</Button></StyledTableCell>
+            <StyledTableCell padding='none' sx={{fontWeight: 400}} align='center' rowSpan={2}><Button onClick={priceSort3} variant="contained" disableElevation>평당가1(만원)</Button></StyledTableCell>
+            <StyledTableCell padding='none' sx={{fontWeight: 400}} align='center' rowSpan={2}><Button onClick={priceSort3} variant="contained" disableElevation>평당가2(만원)</Button></StyledTableCell>
             <StyledTableCell padding='none' sx={{fontWeight: 400}} align='center' rowSpan={2}><Button onClick={priceSort4} variant="contained" disableElevation>계약면적</Button></StyledTableCell>
             <StyledTableCell padding='none' sx={{fontWeight: 400}} align='center' rowSpan={2}><Button onClick={priceSort5} variant="contained" disableElevation>전용면적</Button></StyledTableCell>
             <StyledTableCell padding='none' sx={{fontWeight: 400}} align='center' rowSpan={2}><Button onClick={priceSort6} variant="contained" disableElevation>전용율</Button></StyledTableCell>
@@ -706,10 +707,11 @@ const handleClickExport = () => {
                   price = {Number(op.prc)*10}
                   rentPrc = {Number(op.rentPrc)}
                   // priceparea = {((op.prc / (Number(op.spc1)/3.3)).toFixed(0))}
-                  priceparea = {((op.rentPrc / (Number(op.spc2)/3.3)).toFixed(1))}
-                  spc1 = {`${Number(op.spc1).toLocaleString()} ㎡  /  ${(Number(op.spc1)/3.3).toFixed(1)} 평`}
-                  spc2 = {`${op.spc2} ㎡  /  ${(Number(op.spc2)/3.3).toFixed(1)} 평`}
-                  areaRatio = {`${((op.spc2/op.spc1) * 100).toFixed(1)}%`} 
+                  priceparea = {((op.rentPrc / (Number(op.spc1)/3.3)).toFixed(1))}
+                  priceparea2 = {((op.rentPrc / (Number(op.spc2)/3.3)).toFixed(1))}
+                  spc1 = {`${Number(op.spc1).toFixed(0)} ㎡  /  ${(Number(op.spc1)/3.3).toFixed(0)} 평`}
+                  spc2 = {`${Number(op.spc2).toFixed(0)} ㎡  /  ${(Number(op.spc2)/3.3).toFixed(0)} 평`}
+                  areaRatio = {`${((op.spc2/op.spc1) * 100).toFixed(0)}%`} 
                   flrInfo = {op.flrInfo} 
                   tagList = {op.tagList}
                   />
@@ -723,10 +725,11 @@ const handleClickExport = () => {
                     title = {op.atclNm}
                     price = {Number(op.prc)*10}
                     rentPrc = {Number(op.rentPrc)}
-                    priceparea = {((op.prc / (Number(op.spc2)/3.3)).toFixed(1))}
+                    priceparea = {((op.prc / (Number(op.spc1)/3.3)).toFixed(1))}
+                    priceparea2 = {((op.prc / (Number(op.spc2)/3.3)).toFixed(1))}
                     // priceparea = {((op.rentPrc / (Number(op.spc2)/3.3)).toFixed(1))}
-                    spc1 = {`${Number(op.spc1).toLocaleString()} ㎡  /  ${(Number(op.spc1)/3.3).toFixed(1)} 평`}
-                    spc2 = {`${op.spc2} ㎡  /  ${(Number(op.spc2)/3.3).toFixed(1)} 평`}
+                    spc1 = {`${Number(op.spc1).toFixed(0)} ㎡  /  ${(Number(op.spc1)/3.3).toFixed(0)} 평`}
+                    spc2 = {`${Number(op.spc2).toFixed(0)} ㎡  /  ${(Number(op.spc2)/3.3).toFixed(0)} 평`}
                     areaRatio = {`${((op.spc2/op.spc1) * 100).toFixed(1)}%`} 
                     flrInfo = {op.flrInfo} 
                     tagList = {op.tagList}
@@ -740,7 +743,7 @@ const handleClickExport = () => {
         <TableFooter>
           <TableRow>
             <TablePagination
-              rowsPerPageOptions={[5, 10, 25, 50, 100, 200, 500, 1000]}
+              rowsPerPageOptions={[5, 10, 25, 50, 100]}
               count={landList.length}
               rowsPerPage={rowsPerPage}
               page={page}

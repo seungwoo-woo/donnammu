@@ -6,7 +6,7 @@ import { TableCell, TableRow } from '@mui/material';
 function Land(props) {
 
   // Initialize Variable ==================================================
-const {no, atclNo, title, price, rentPrc, priceparea, spc1, spc2, areaRatio, flrInfo, tagList } = props
+const {no, atclNo, title, price, rentPrc, priceparea, priceparea2, spc1, spc2, areaRatio, flrInfo, tagList } = props
 
 // Table style ----------------------------------------------------
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
@@ -28,6 +28,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
       <TableCell padding='none' align='right'>{price.toLocaleString()}</TableCell>
       <TableCell padding='none' align='right'>{rentPrc.toLocaleString()}</TableCell>
       <TableCell padding='none' align='center'>{Number(priceparea).toLocaleString()}</TableCell>
+      <TableCell padding='none' align='center'>{Number(priceparea2).toLocaleString()}</TableCell>
       <TableCell padding='none' align='center'>{spc1}</TableCell>
       <TableCell padding='none' align='center'>{spc2}</TableCell>
       <TableCell padding='none' align='center'>{areaRatio}</TableCell>
