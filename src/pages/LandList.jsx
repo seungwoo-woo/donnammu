@@ -279,7 +279,7 @@ const mapView = () => {
     landList.map((land, index)=> (
       new window.kakao.maps.CustomOverlay({
         position: new window.kakao.maps.LatLng(land.lat, land.lng),
-        content: `<div style="background-color:${getColor(index)}; opacity: 0.8; text-align:center; border-radius: 7px; width: 35px; height: 19px";> ${index+1} </div>`   
+        content: `<div style="background-color:${getColor(index)}; opacity: 0.9; text-align:center; border-radius: 7px; width: 35px; height: 19px";> ${index+1} </div>`   
       }).setMap(map)
 
     ))
