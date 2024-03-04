@@ -276,13 +276,57 @@ const mapView = () => {
       return colors[colorIndex];
     };
 
-    landList.map((land, index)=> (
+    let sumLand = []
+    landList.map((land, index) => {
+      
+      sumLand.push(land)
+
+      console.log(sumLand)
+
+      let count = sumLand.filter(item => item.lat === land.lat && item.lan === land.lan ).length
+
+      console.log(count)
+      
+
       new window.kakao.maps.CustomOverlay({
-        position: new window.kakao.maps.LatLng(land.lat, land.lng),
+        position: new window.kakao.maps.LatLng(land.lat+0.00002*count, land.lng+0.00002*count),
         content: `<div style="background-color:${getColor(index)}; opacity: 0.9; text-align:center; border-radius: 7px; width: 35px; height: 19px";> ${index+1} </div>`   
       }).setMap(map)
 
-    ))
+      return ''
+
+    })
+
+
+    // ########################################
+
+//     const groupedLandList = {};
+
+//     landList.forEach((land, index) => {
+//         const key = `${land.lat}-${land.lng}`;
+//         if (groupedLandList[key]) {
+//             groupedLandList[key].push(index + 1);
+//         } else {
+//             groupedLandList[key] = [index + 1];
+//         }
+//     });
+
+
+//     Object.keys(groupedLandList).forEach(key => {
+//       const indices = groupedLandList[key];
+//       const content = `<div style="background-color:${getColor(indices[0] - 1)}; opacity: 0.9; text-align:center; border-radius: 7px; width: 35px; height: 19px";> ${indices.join(',')} </div>`;
+
+
+//       new window.kakao.maps.CustomOverlay({
+//         position: new window.kakao.maps.LatLng(landList[indices[0] - 1].lat, landList[indices[0] - 1].lng),
+//         content: content
+//     }).setMap(map);
+// });
+
+    // ########################################
+
+
+
 
     if (mapOption) {map.removeOverlayMapTypeId(window.kakao.maps.MapTypeId.USE_DISTRICT)}
     else {map.addOverlayMapTypeId(window.kakao.maps.MapTypeId.USE_DISTRICT)}
