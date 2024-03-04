@@ -269,17 +269,21 @@ const mapView = () => {
     //     }).setMap(map)
     // ))
 
+    let colorIndex = ''
     const getColor = (index) => {
-      const colorIndex = Math.floor(index / 10) % 10; // 10개마다 색상이 바뀌도록 설정
+      colorIndex = Math.floor(index / 10) % 10; // 10개마다 색상이 바뀌도록 설정
       // const colors = ['red', 'blue', 'green', 'yellow', 'orange', 'purple', 'cyan', 'magenta', 'pink', 'brown']; // 색상 배열
       const colors = ['#cddc39', '#ffeb3b', '#ffc107', '#ff9800', '#ff5722', '#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5']; // 색상 배열
       return colors[colorIndex];
     };
 
     let sumLand = []
+    let textColor = 'black'
+
     landList.map((land, index) => {
       
       sumLand.push(land)
+      if (colorIndex >= 4) {textColor = 'white'}
 
       // console.log(sumLand)
 
@@ -290,7 +294,7 @@ const mapView = () => {
 
       new window.kakao.maps.CustomOverlay({
         position: new window.kakao.maps.LatLng(land.lat-0.00002*count, land.lng+0.0001*count),
-        content: `<div style="background-color:${getColor(index)}; opacity: 0.9; text-align:center; border-radius: 7px; width: 35px; height: 19px";> ${index+1} </div>`   
+        content: `<div style="color:${textColor}; background-color:${getColor(index)}; opacity: 0.9; text-align:center; border-radius: 7px; width: 35px; height: 19px";> ${index+1} </div>`   
       }).setMap(map)
 
       return ''
