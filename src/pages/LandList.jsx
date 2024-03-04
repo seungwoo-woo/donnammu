@@ -271,7 +271,8 @@ const mapView = () => {
 
     const getColor = (index) => {
       const colorIndex = Math.floor(index / 10) % 10; // 10개마다 색상이 바뀌도록 설정
-      const colors = ['red', 'blue', 'green', 'yellow', 'orange', 'purple', 'cyan', 'magenta', 'pink', 'brown']; // 색상 배열
+      // const colors = ['red', 'blue', 'green', 'yellow', 'orange', 'purple', 'cyan', 'magenta', 'pink', 'brown']; // 색상 배열
+      const colors = ['#cddc39', '#ffeb3b', '#ffc107', '#ff9800', '#ff5722', '#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5']; // 색상 배열
       return colors[colorIndex];
     };
 
