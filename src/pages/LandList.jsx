@@ -113,7 +113,9 @@ function LandList() {
   const [ findDong, setFindDong ] = useState()
   const [ findInputDong, setFindInputDong ] = useState()
   const [ findType, setFindType ] = useState()
+  const [ findType2, setFindType2 ] = useState()
   const [ findInputType, setFindInputType ] = useState()
+  const [ findInputType2, setFindInputType2 ] = useState()
   const [ findTradeType, setFindTradeType ] = useState()
   const [ findInputTradeType, setFindInputTradeType ] = useState()
   const [ siNameList, setSiNameList ] = useState()
@@ -515,6 +517,7 @@ const handleClickFind = async () => {
 
   let temp = []
   let type = ''
+  let type2 = ''
   let tradeType = ''
   let dongCode = dongCodeList[dongNameList.indexOf(findDong)]
   if (findType === '아파트') {
@@ -568,6 +571,61 @@ const handleClickFind = async () => {
   if (findType === '토지') {
     type = 'TJ'
   }
+
+// ------------------------------------
+
+  if (findType2 === '아파트') {
+    type2 = 'APT'
+  }
+  if (findType2 === '아파트분양권') {
+    type2 = 'ABYG'
+  }
+  if (findType2 === '재건축') {
+    type2 = 'JGC'
+  }
+  if (findType2 === '오피스텔') {
+    type2 = 'OPST'
+  }
+  if (findType2 === '오피스텔분양권') {
+    type2 = 'OBYG'
+  }
+  if (findType2 === '재개발') {
+    type2 = 'JGB'
+  }
+  if (findType2 === '빌라/연립') {
+    type2 = 'VL'
+  }
+  if (findType2 === '단독/다가구') {
+    type2 = 'DDDGG'
+  }
+  if (findType2 === '전원주택') {
+    type2 = 'JWJT'
+  }
+  if (findType2 === '상가주택') {
+    type2 = 'SGJT'
+  }
+  if (findType2 === '한옥주택') {
+    type2 = 'HOJT'
+  }
+  if (findType2 === '상가') {
+    type2 = 'SG'
+  }
+  if (findType2 === '사무실') {
+    type2 = 'SMS'
+  }
+  if (findType2 === '지식산업센터') {
+    type2 = 'APTHGJ'
+  }
+  if (findType2 === '공장/창고') {
+    type2 = 'GJCG'
+  }
+  if (findType2 === '건물') {
+    type2 = 'GM'
+  }
+  if (findType2 === '토지') {
+    type2 = 'TJ'
+  }
+
   if (findTradeType === '매매') {
     tradeType = 'A1'
   } 
@@ -578,13 +636,15 @@ const handleClickFind = async () => {
     tradeType = 'B2'
   }
 
+  console.log(type2)
+
     try{
       // const res1 = await axios.get("https://fin.land.naver.com/articles/2401460139")
-      const res1 = await axios.get(`https://m.land.naver.com/cluster/ajax/articleList?rletTpCd=${type}&tradTpCd=${tradeType}&cortarNo=${dongCode}&sort=rank&page=1`)
-      const res2 = await axios.get(`https://m.land.naver.com/cluster/ajax/articleList?rletTpCd=${type}&tradTpCd=${tradeType}&cortarNo=${dongCode}&sort=rank&page=2`)
-      const res3 = await axios.get(`https://m.land.naver.com/cluster/ajax/articleList?rletTpCd=${type}&tradTpCd=${tradeType}&cortarNo=${dongCode}&sort=rank&page=3`)
-      const res4 = await axios.get(`https://m.land.naver.com/cluster/ajax/articleList?rletTpCd=${type}&tradTpCd=${tradeType}&cortarNo=${dongCode}&sort=rank&page=4`)
-      const res5 = await axios.get(`https://m.land.naver.com/cluster/ajax/articleList?rletTpCd=${type}&tradTpCd=${tradeType}&cortarNo=${dongCode}&sort=rank&page=5`)
+      const res1 = await axios.get(`https://m.land.naver.com/cluster/ajax/articleList?rletTpCd=${type}:${type2}&tradTpCd=${tradeType}&cortarNo=${dongCode}&sort=rank&page=1`)
+      const res2 = await axios.get(`https://m.land.naver.com/cluster/ajax/articleList?rletTpCd=${type}:${type2}&tradTpCd=${tradeType}&cortarNo=${dongCode}&sort=rank&page=2`)
+      const res3 = await axios.get(`https://m.land.naver.com/cluster/ajax/articleList?rletTpCd=${type}:${type2}&tradTpCd=${tradeType}&cortarNo=${dongCode}&sort=rank&page=3`)
+      const res4 = await axios.get(`https://m.land.naver.com/cluster/ajax/articleList?rletTpCd=${type}:${type2}&tradTpCd=${tradeType}&cortarNo=${dongCode}&sort=rank&page=4`)
+      const res5 = await axios.get(`https://m.land.naver.com/cluster/ajax/articleList?rletTpCd=${type}:${type2}&tradTpCd=${tradeType}&cortarNo=${dongCode}&sort=rank&page=5`)
       // const res6 = await axios.get(`https://m.land.naver.com/cluster/ajax/articleList?rletTpCd=${type}&tradTpCd=${tradeType}&cortarNo=${dongCode}&sort=rank&page=5`)
       // const res7 = await axios.get(`https://m.land.naver.com/cluster/ajax/articleList?rletTpCd=${type}&tradTpCd=${tradeType}&cortarNo=${dongCode}&sort=rank&page=5`)
       // const res8 = await axios.get(`https://m.land.naver.com/cluster/ajax/articleList?rletTpCd=${type}&tradTpCd=${tradeType}&cortarNo=${dongCode}&sort=rank&page=5`)
@@ -651,7 +711,7 @@ const handleClickExport = () => {
   return (
     <Container maxWidth='false' sx={{m: 0}}>
 
-    <div style={{ marginTop:10,  width: 1100, display: 'flex',  justifyContent: 'space-between', alignItems: 'flex-end' }}>
+    <div style={{ marginTop:10,  width: 1200, display: 'flex',  justifyContent: 'space-between', alignItems: 'flex-end' }}>
     
     <Autocomplete size="small"
       value={findSi}
@@ -711,6 +771,21 @@ const handleClickExport = () => {
       options={typeNameList}
       sx={{ width: 150 }}
       renderInput={(params) => <TextField {...params} label="부동산 종류" />}
+    />
+
+<Autocomplete size="small"
+      value={findType2}
+      onChange={(event, newValue) => {
+        setFindType2(newValue);
+      }}
+      InputValue={findInputType2}
+      onInputChange={(event, newInputValue) => {
+        setFindInputType2(newInputValue);
+      }}
+      id="controllable-states-demo2"
+      options={typeNameList}
+      sx={{ width: 150 }}
+      renderInput={(params) => <TextField {...params} label="부동산 종류2" />}
     />
 
     <Autocomplete size="small"
