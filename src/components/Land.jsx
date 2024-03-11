@@ -1,12 +1,17 @@
 import React from 'react'
 import { styled } from '@mui/material/styles';
 import { TableCell, TableRow } from '@mui/material';
+import axios from 'axios'
+
 
 
 function Land(props) {
 
   // Initialize Variable ==================================================
-const {no, atclNo, title, price, rentPrc, priceparea, priceparea2, spc1, spc2, areaRatio, flrInfo, tagList } = props
+const {no, atclNo, title, price, rentPrc, priceparea, priceparea2, spc1, spc2, areaRatio, flrInfo, tagList, tradeType} = props
+
+console.log(tradeType)
+
 
 // Table style ----------------------------------------------------
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
@@ -20,11 +25,25 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 
+const openWindow = async () => {
+  console.log(tradeType)
+  console.log(atclNo)
+  const res = await axios.get(`https://fin.land.naver.com/front-api/v1/article/key?articleId=${atclNo}`)
+
+  console.log(res.data.result.key)
+
+  const complexNo = res.data.result.key.complexNumber
+  const pyeongTypeNo = res.data.result.key.pyeongTypeNumber
+  const res2 = await axios.get(`https://fin.land.naver.com/front-api/v1/article/realPrice?complexNumber=${complexNo}&pyeongTypeNumber=${pyeongTypeNo}&realEstateType=A01&page=1&size=10&tradeType=${tradeType}`)
+
+  console.log(res2)
+}
+
   return (
     <StyledTableRow>
       <TableCell padding='none' sx= {{paddingTop:0.6, paddingBottom:0.6}} align='center'>{no}</TableCell>
       <TableCell padding='none' align='center'>{atclNo}</TableCell>
-      <TableCell padding='none' align='left'>{title}</TableCell>
+      <TableCell padding='none' align='left' sx= {{cursor: 'pointer'}} onClick={openWindow}>{title}</TableCell>
       <TableCell padding='none' align='right'>{price.toLocaleString()}</TableCell>
       <TableCell padding='none' align='right'>{rentPrc.toLocaleString()}</TableCell>
       <TableCell padding='none' align='center'>{Number(priceparea).toLocaleString()}</TableCell>

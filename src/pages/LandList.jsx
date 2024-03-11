@@ -513,6 +513,8 @@ const priceSort8 = () => {
 }
 
 
+
+
 const handleClickFind = async () => {
 
   let temp = []
@@ -520,6 +522,7 @@ const handleClickFind = async () => {
   let type2 = ''
   let tradeType = ''
   let dongCode = dongCodeList[dongNameList.indexOf(findDong)]
+
   if (findType === '아파트') {
     type = 'APT'
   }
@@ -636,7 +639,17 @@ const handleClickFind = async () => {
     tradeType = 'B2'
   }
 
-  console.log(type2)
+  
+
+
+  // 매매/전세 흐름 - 매매, 전세, 갭 
+  // https://fin.land.naver.com/front-api/v1/article/marketPrices?complexNumber=26125&pyeongTypeNumber=1&startDate=2020-03-01&endDate=2024-03-11&currentPrice=500000000
+  // 과거 실거래가 
+  // https://fin.land.naver.com/front-api/v1/article/realPrice?complexNumber=26125&pyeongTypeNumber=1&realEstateType=A01&page=1&size=10&tradeType=A1
+  // 건물 아이디 알아내기
+  // https://fin.land.naver.com/front-api/v1/article/key?articleId=2411982163
+
+
 
     try{
       // const res1 = await axios.get("https://fin.land.naver.com/articles/2401460139")
@@ -668,6 +681,7 @@ const handleClickFind = async () => {
       console.log(err)
     }
 }
+
 
 
 const handleClickExport = () => {
@@ -860,9 +874,16 @@ const handleClickExport = () => {
                   areaRatio = {`${((op.spc2/op.spc1) * 100).toFixed(0)}%`} 
                   flrInfo = {op.flrInfo} 
                   tagList = {op.tagList}
+                  tradeType = {'B2'}
                   />
                 );}
                 else {
+                  let tradeType = ''
+                  if(findTradeType === '매매') {
+                    tradeType = 'A1'
+                  } else {
+                    tradeType = 'B1'
+                  }
                   return (<Land 
                     key = {op.id}
                     id = {op.id} 
@@ -879,6 +900,7 @@ const handleClickExport = () => {
                     areaRatio = {`${((op.spc2/op.spc1) * 100).toFixed(1)}%`} 
                     flrInfo = {op.flrInfo} 
                     tagList = {op.tagList}
+                    tradeType = {tradeType}
                     />
                   )
                 }   // return ----------
