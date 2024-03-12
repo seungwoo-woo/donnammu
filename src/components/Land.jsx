@@ -71,7 +71,7 @@ const openWindow = async () => {
 
   const complexNo = res.data.result.key.complexNumber
   const pyeongTypeNo = res.data.result.key.pyeongTypeNumber
-  const res2 = await axios.get(`https://fin.land.naver.com/front-api/v1/article/realPrice?complexNumber=${complexNo}&pyeongTypeNumber=${pyeongTypeNo}&realEstateType=A01&page=1&size=10&tradeType=${tradeType}`)
+  const res2 = await axios.get(`https://fin.land.naver.com/front-api/v1/article/realPrice?complexNumber=${complexNo}&pyeongTypeNumber=${pyeongTypeNo}&realEstateType=A01&page=1&size=5&tradeType=${tradeType}`)
 
   console.log(res2)
   setRealPrice(res2.data.result.list)
@@ -131,15 +131,18 @@ const handleClose = () => {
           <Table stickyHeader size='small' aria-label="sticky table">        
             <TableHead>
               <TableRow>
-                <StyledTableCell padding='none' sx={{fontWeight: 400}} align='center'>거래일</StyledTableCell>
-                <StyledTableCell padding='none' sx={{fontWeight: 400}} align='center'>해당 층</StyledTableCell>
-                <StyledTableCell padding='none' sx={{fontWeight: 400}} align='center'>실거래가(천원)</StyledTableCell>
+                <StyledTableCell padding='none' sx={{fontWeight: 400, width: 200}} align='center'>거래일</StyledTableCell>
+                <StyledTableCell padding='none' sx={{fontWeight: 400, width: 200}} align='center'>해당 층</StyledTableCell>
+                {tradeType === 'A1' && <StyledTableCell padding='none' sx={{fontWeight: 400, width: 300}} align='center'>매매가(천원)</StyledTableCell>}
+                {tradeType === 'B1' && <StyledTableCell padding='none' sx={{fontWeight: 400, width: 300}} align='center'>전세가(천원)</StyledTableCell>}
+                {tradeType === 'B2' && <StyledTableCell padding='none' sx={{fontWeight: 400, width: 300}} align='center'>보증금(천원)</StyledTableCell>}
+                {tradeType === 'B2' && <StyledTableCell padding='none' sx={{fontWeight: 400, width: 300}} align='center'>월세(만원)</StyledTableCell>}
               </TableRow>
             </TableHead>
 
             <TableBody>
               {realPrice  && realPrice.map((item, index) => {
-                return (<RealPriceRow item={item}/>)
+                return (<RealPriceRow item={item} tradeType={tradeType}/>)
               }) 
               }
 
